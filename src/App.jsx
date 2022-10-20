@@ -8,13 +8,19 @@ import Background from './components/Background';
 
 function App() {
   let initialTime = 60;
+  const [timerStatus, setTimerStatus] = useState(false);
   const [currentTime, setCurrentTime] = useState(initialTime);
+  const [length, setLength] = useState(0);
+  const [numPlayers, setNumPlayers] = useState(0);
+
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(currentTime - 1);
-    }, 250);
-    return () => clearInterval(interval);
+    //if (timerStatus === true) {
+      const interval = setInterval(() => {
+        setCurrentTime(currentTime - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    //}
   });
 
   return (
@@ -23,7 +29,7 @@ function App() {
         <Link to="/config">Config Screen</Link> |{' '}
         <Link to="/game">Game Screen</Link>
         <Routes>
-          <Route path="/config" element={<Configuration />} />
+          <Route path="/config" element={<Configuration length={length} numPlayers={numPlayers} setLength={setLength} setNumPlayers={setNumPlayers}/>} />
           <Route
             path="/game"
             element={
