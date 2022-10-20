@@ -11,7 +11,7 @@ function Timer(props) {
     >
       <p style={{ fontSize: '3em', paddingTop: '15px' }}>{props.currentTime}</p>
       <div>
-        { /* <button onClick={(e) => props.setTimerStatus(true)}>START</button> */ }
+        { <button onClick={(e) => props.setTimerStatus(true)}>START</button> }
       </div>
     </div>
   );

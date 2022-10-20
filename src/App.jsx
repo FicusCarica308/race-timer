@@ -1,3 +1,4 @@
+import { useNavigate  } from 'react-router-dom'; // Transfer to nav
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import './App.css';
 import Configuration from './components/Configuration';
@@ -7,20 +8,23 @@ import { useState, useEffect } from 'react';
 import Background from './components/Background';
 
 function App() {
-  let initialTime = 60;
+  const [currentTime, setCurrentTime] = useState(60);
   const [timerStatus, setTimerStatus] = useState(false);
-  const [currentTime, setCurrentTime] = useState(initialTime);
   const [length, setLength] = useState(0);
   const [numPlayers, setNumPlayers] = useState(0);
 
+ useEffect(() => {
+    setCurrentTime(length);
+  }, [length]);
+
 
   useEffect(() => {
-    //if (timerStatus === true) {
+    if (timerStatus === true) {
       const interval = setInterval(() => {
         setCurrentTime(currentTime - 1);
       }, 1000);
       return () => clearInterval(interval);
-    //}
+    }
   });
 
   return (
@@ -29,13 +33,13 @@ function App() {
         <Link to="/config">Config Screen</Link> |{' '}
         <Link to="/game">Game Screen</Link>
         <Routes>
-          <Route path="/config" element={<Configuration length={length} numPlayers={numPlayers} setLength={setLength} setNumPlayers={setNumPlayers}/>} />
+          <Route path="/config" element={<Configuration length={length} numPlayers={numPlayers} setNumPlayers={setNumPlayers} setLength={setLength} setTimerStatus={setTimerStatus}/>} />
           <Route
             path="/game"
             element={
               <Background>
-                <Timer currentTime={currentTime} />
-                <Race currentTime={currentTime} />
+                <Timer currentTime={currentTime} setTimerStatus={setTimerStatus}/>
+                <Race currentTime={currentTime} numPlayers={numPlayers} timerStatus={timerStatus}/>
               </Background>
             }
           />
